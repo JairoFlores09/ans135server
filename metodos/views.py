@@ -29,6 +29,7 @@ from metodos.unidad4.Integracion import Integracion
 from metodos.unidad4.Rosemberg import Rosemberg
 #=============== UNIDAD 5 ==================
 from metodos.unidad5.euler import Euler
+from metodos.unidad5.taylor import Taylor
 
 
 @api_view(['POST'])
@@ -568,8 +569,27 @@ def euler(request):
 @api_view(['POST'])
 def taylor(request):
 	resultado = {}
-	resultado['error'] = 'Este método aún no está en funcionamiento! Regrese más tarde :)'
-	return Response(resultado, status=status.HTTP_404_NOT_FOUND)
+	try:
+		ecuation = request.data['ecuation']
+		xi = request.data['xi']
+		yi = request.data['yi']
+		value = request.data['value']
+		h = 0 if request.data['h'] == '' else float(request.data['h'])
+		n = 0 if request.data['n'] == '' else int(request.data['n'])
+		grade = 2 if request.data['grade'] == '' else int(request.data['grade'])
+		ndiffs = request.data['ndiffs']
+
+		respuesta = Taylor(ecuation, xi, yi, value, grado = grade, h = h, n = n, derivadas = ndiffs).taylor
+
+		if respuesta == "666":
+			resultado['error']  = "Debes proporcionar al menos un espaciado o un valor para n"
+			return Response(resultado, status=status.HTTP_400_BAD_REQUEST)
+		else:
+			return Response(respuesta, status=status.HTTP_200_OK)
+	except Exception:
+		resultado['error'] = "Asegurate que todos los datos que ingresaste sean válidos"
+		return Response(resultado, status=status.HTTP_400_BAD_REQUEST)
+		
 
 @api_view(['POST'])
 def rungekutta(request):
