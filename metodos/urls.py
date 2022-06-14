@@ -32,6 +32,6 @@ urlpatterns = [
 	#url's para metodos de la unidad 5
 	path('unidad5/euler/', views.euler, name="Euler"),
 	path('unidad5/taylor/', views.taylor, name="Taylor"),
-	path('unidad5/rungekutta', views.rungekutta, name="Runge Kutta"),
-	path('unidad5/adaptativo', views.adaptativo, name="Adaptativo"),
+	path('unidad5/rungekutta/', views.rungekutta, name="Runge Kutta"),
+	path('unidad5/adaptativo/', views.adaptativo, name="Adaptativo"),
 ]
