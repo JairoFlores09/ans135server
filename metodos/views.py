@@ -10,6 +10,7 @@ from metodos.unidad1.arctgx import Arctgx
 from metodos.unidad1.fraccion import Fraccion
 from metodos.unidad1.sinhx import Sinhx
 from metodos.unidad1.lnx import Lnx
+from metodos.unidad1.arcsinx import Arcsinx
 # =========== UNIDAD 2 ==========
 from metodos.unidad2.biseccion import Biseccion
 from metodos.unidad2.falsa_posicion import FalsaPosicion
@@ -159,8 +160,22 @@ def sinhx(request):
 @api_view(['POST'])
 def arcsinx(request):
 	resultado = {}
-	resultado['error'] = 'Este método aún no está en funcionamiento! Regrese más tarde :)'
-	return Response(resultado, status=status.HTTP_404_NOT_FOUND)
+	try:
+		x = float(request.data['x'])
+		cifras = int(request.data['cifras'])
+		if cifras < 1:
+			resultado['error'] = "Ingrese un número positivo en las cifras significativas"
+			return Response(resultado, status=status.HTTP_400_BAD_REQUEST)
+
+		if x > -1 and x  < 1:
+			respuesta = Arcsinx(cifras,x).arcsinx
+			return Response(respuesta, status = status.HTTP_200_OK)
+		else:
+			resultado['error'] = 'El valor de x debe pertencer al intervalo ]-1;1['
+			return Response(resultado, status=status.HTTP_400_BAD_REQUEST)
+	except Exception:
+		resultado['error'] = 'Asegurate que todos los datos que ingresaste sean válidos'
+		return Response(resultado, status=status.HTTP_400_BAD_REQUEST)
 
 #=============== UNIDAD 2 ==================
 @api_view(['POST'])
