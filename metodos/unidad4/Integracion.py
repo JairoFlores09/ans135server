@@ -112,8 +112,8 @@ class Integracion:
 	def simpson1_3(self, sub):
 		self.validar(sub)
 
-		if len(self.x)%2 == 0:
-			return "N131ER"
+		# if len(self.x)%2 == 0:
+		# 	return "N131ER"
 		if type(self.h) != float:
 			return "N132ER"
 
@@ -124,6 +124,7 @@ class Integracion:
 		suma_j = 0
 		for j in range(2, len(self.y) - 2, 2):
 			suma_j += self.y[j]
+
 
 
 		respuesta = (self.h) * ((self.y[0] + (4*suma_i) + (2*suma_j) + self.y[-1])/3)
