@@ -33,6 +33,7 @@ from metodos.unidad4.Rosemberg import Rosemberg
 from metodos.unidad5.euler import Euler
 from metodos.unidad5.taylor import Taylor
 from metodos.unidad5.rungekutta import RungeKutta
+from metodos.unidad5.adaptativo import Adaptativo
 
 
 @api_view(['POST'])
@@ -549,7 +550,7 @@ def integracion(request):
 			resultado['error'] = 'Los puntos deben estar equidistantes'
 			return Response(resultado, status=status.HTTP_400_BAD_REQUEST)
 		elif respuesta == "500":
-			resultado['error'] = 'Ocurrió un problema! Asegurate que todos los datos ingresados sean válidos'
+			resultado['error'] = 'El número de intervalos debe ser múltiplo de 3'
 			return Response(resultado, status=status.HTTP_400_BAD_REQUEST)
 		else:
 			return Response(respuesta, status=status.HTTP_200_OK)
@@ -659,6 +660,27 @@ def rungekutta(request):
 @api_view(['POST'])
 def adaptativo(request):
 	resultado = {}
-	resultado['error'] = 'Este método aún no está en funcionamiento! Regrese más tarde :)'
-	return Response(resultado, status=status.HTTP_404_NOT_FOUND)
+	try:
+		ecuation = request.data['ecuation']
+		xi = request.data['xi']
+		yi = request.data['yi']
+		value = request.data['value']
+		h = 0 if request.data['h'] == '' else float(request.data['h'])
+		n = 0 if request.data['n'] == '' else int(request.data['n'])
+		steps = 4 if request.data['steps'] == '' else int(request.data['steps'])
+
+		if steps < 2 or steps > 4:
+			resultado['error'] = 'La cantidad de pasos no puede ser menor que 2 y mayor que 4'
+			return Response(resultado, status = status.HTTP_400_BAD_REQUEST)
+
+		respuesta = Adaptativo(ecuation,xi,yi,value,h = h,n = n, pasos = steps).adaptativo
+
+		if respuesta == "666":
+			resultado['error'] = 'Deber proporcionar al menos un espaciado (h) o un número de puntos (n)'
+			return Response(resultado, status = status.HTTP_400_BAD_REQUEST)
+		else:
+			return Response(respuesta, status=status.HTTP_200_OK)
+	except Exception:
+		resultado['error'] = 'Asegurate que todos los datos que ingresaste sean válidos'
+		return Response(resultado, status = status.HTTP_400_BAD_REQUEST)
 
