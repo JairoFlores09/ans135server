@@ -3,11 +3,11 @@ from functools import reduce
 
 class Hermite:
     def __init__(self, x,interpolado, funct="", y = [], dy =[]):
-        self.x = x
+        self.x = list(map(lambda val: float(val), x))
         self.interpolado = sympify(interpolado)
         self.funct = sympify(funct.replace("^","**")) if funct != "" else ""
-        self.y = y
-        self.dy = dy
+        self.y = list(map(lambda val: float(val), y))
+        self.dy = list(map(lambda val: float(val), dy))
         self.diferencias = []
         self.resultado = {}
 

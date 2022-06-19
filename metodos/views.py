@@ -389,22 +389,12 @@ def hermite(request):
 		x = request.data['xi']
 		y = request.data['fi']
 		dy = request.data['dy']
-		respuesta = ''
-		if funcion != '':
-			respuesta = Hermite(x,interpolar,funct = funcion).hermite
-		elif funcion == '' and len(x) != 0 and len(y) != 0 and len(dy) != 0:
-			x = list(map(lambda valor: float(valor), x))
-			y = list(map(lambda valor: float(valor), y))
-			dy = list(map(lambda valor: float(valor), dy))
-			respuesta = Hermite(x,interpolar, y = y, dy = dy).hermite
-		else:
-			resultado['error'] = 'Debes ingresar un polinomio o una tabla de datos para que podamos darte una respuesta'
-			return Response(resultado, status=status.HTTP_400_BAD_REQUEST)
-
+		respuesta = Hermite(x, interpolar, funct = funcion, y = y, dy = dy).hermite
 		return Response(respuesta, status=status.HTTP_200_OK)
 	except Exception:
-		resultado['error'] = 'Asegurate que todos los datos que ingreses sean válidos'
-		return Response(resultado, status=status.HTTP_400_BAD_REQUEST)
+		resultado['error'] = 'Asegurate que todos los datos que hayas ingresado sean válidos'
+		return Response(resultado, status= status.HTTP_400_BAD_REQUEST)
+
 
 
 #=============== UNIDAD 4 ==================
