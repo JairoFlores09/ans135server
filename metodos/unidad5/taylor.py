@@ -17,7 +17,7 @@ class Taylor:
         x, y = symbols("x y")
         parcial_x = diff(funcion, x)
         parcial_x = parcial_x + y
-        derivada = parcial_x.subs(y, funcion)
+        derivada = parcial_x.subs(y, self.funct)
         return derivada.expand()
 
     def eval(self,funcion, valor_x, valor_y):
